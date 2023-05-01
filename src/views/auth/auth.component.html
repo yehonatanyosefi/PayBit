@@ -1,0 +1,12 @@
+<!-- <form class="signup" [formGroup]="signUpForm" (ngSubmit)="signUp()">
+     <h1>Sign Up</h1>
+     <input type="text" formControlName="username" placeholder="Username" />
+     <button type="submit">Sign Up</button>
+</form> -->
+<div class="signup-container">
+     <form class="signup" (submit)="signUp()">
+          <h1>Sign Up</h1>
+          <input type="text" [(ngModel)]="usernam" placeholder="Username" name="username" required />
+          <button type="submit">Sign Up</button>
+     </form>
+</div>

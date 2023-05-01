@@ -1,0 +1,33 @@
+:host {
+     display: flex;
+     align-items: center;
+     border: 1px solid #dddddd;
+     border-radius: 4px;
+     padding: 8px;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+     img {
+          max-width: 80px;
+          max-height: 80px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-right: 16px;
+     }
+
+     .friend-info {
+          h3 {
+               margin: 0 0 8px;
+          }
+     }
+
+     .details-link {
+          display: inline-block;
+          margin-top: 8px;
+          color: #07aaf5;
+          text-decoration: none;
+
+          &:hover {
+               text-decoration: underline;
+          }
+     }
+}

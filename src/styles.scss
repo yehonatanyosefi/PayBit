@@ -1,0 +1,39 @@
+$primary-color: #07aaf5;
+$secondary-color: #f57c00;
+$background-color: #f8f8f8;
+$text-color: #333333;
+$light-txt-color: #666666;
+$border-color: #dddddd;
+/* You can add global styles to this file, and also import other style files */
+body {
+  overflow-x: hidden;
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: $text-color;
+  background-color: $background-color;
+  a {
+    color: $text-color;
+  }
+}
+
+// MAC like scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgba(0, 0, 0, 0);
+  -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:vertical:active {
+  -webkit-border-radius: 100px;
+}

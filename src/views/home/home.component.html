@@ -1,0 +1,81 @@
+<div class="home-container">
+
+  <div class="container">
+    <section class="welcome">
+      <h1>Welcome, {{ user?.name }}!</h1>
+    </section>
+    <section class="hero-section">
+      <div class="hero-content">
+        <img src="assets/img/hero.png" alt="Hero Image" class="hero-image" />
+        <div class="hero-txt">
+          <h2>Manage your friends, send and receive money, while viewing interesting statistics about inflation</h2>
+          <p>Use the cards below to access these features.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="feature-cards">
+      <div class="card" routerLink="/friend">
+        <div class="card-header">
+          <h2>Friends</h2>
+        </div>
+        <div class="card-content">
+          <p>View and manage your friends list.</p>
+        </div>
+      </div>
+      <div class="card" routerLink="/friend/edit">
+        <div class="card-header">
+          <h2>Add Friend</h2>
+        </div>
+        <div class="card-content">
+          <p>Add a new friend to your friend list.</p>
+        </div>
+      </div>
+      <div class="card" routerLink="/statistics">
+        <div class="card-header">
+          <h2>Statistics</h2>
+        </div>
+        <div class="card-content">
+          <p>Explore interesting statistics about your money.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="recent-activity" *ngIf="user && user.moves">
+      <h2>Recent Transfers</h2>
+      <transfer-list [transfers]="user.moves" />
+    </section>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>About Me</h4>
+        <p>
+          Learn more me and my mission to help you manage your
+          friends and transactions with ease.
+          <a routerLink="/about">Read more</a>
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4>Tech Stack</h4>
+        <p>
+          This project was built with Angular, AlphaVantage API, and Chart.js.
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4>Follow Me</h4>
+        <p>Stay connected and follow me on social media for updates and news.</p>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/yehonatan-yosefi-1091261b9/" target="_blank"
+            rel="noopener noreferrer"><svg-icon iconName="linkedin" height="20" width="20" /></a>
+          <a href="https://github.com/yehonatanyosefi" target="_blank" rel="noopener noreferrer"><svg-icon
+              iconName="github" height="20" width="20" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2023 Yehonatan Yosefi. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

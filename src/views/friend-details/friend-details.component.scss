@@ -1,0 +1,74 @@
+.friend-details {
+  max-width: 800px;
+  margin: 0 auto;
+  margin-block-start: 40px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 16px;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    button:not(:last-child) {
+      margin-inline-end: 8px;
+    }
+  }
+
+  button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  a {
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .friend-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    h3 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    p {
+      margin-top: 8px;
+      font-size: 16px;
+    }
+  }
+  .transfers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+}

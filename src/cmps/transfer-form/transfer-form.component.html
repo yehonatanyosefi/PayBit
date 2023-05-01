@@ -1,0 +1,5 @@
+<form class="transfer-form" (submit)="transferFunds()">
+     <input type="number" [(ngModel)]="transferAmount" name="transferAmount" placeholder="Enter amount" required />
+     <button type="submit">Transfer</button>
+     <p *ngIf="amountError" class="error">{{amountError}}</p>
+</form>

@@ -1,0 +1,9 @@
+<img src="{{ friend.imgUrl }}" alt="Friend's profile picture" />
+<div class="friend-info">
+  <h3>{{ friend.name }}</h3>
+  <p>Email: {{ friend.email }}</p>
+  <p>Phone: {{ friend.phone }}</p>
+  <a [routerLink]="['/friend', friend._id]" class="details-link"
+    >View Details</a
+  >
+</div>

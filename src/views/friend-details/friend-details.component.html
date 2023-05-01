@@ -1,0 +1,23 @@
+<div *ngIf="(friend$ | async) as friend" class="friend-details">
+     <div class="button-row">
+          <button (click)="onBack()" title="Back to friend list"><svg-icon iconName="arrowLeft" /></button>
+          <div class="actions">
+               <button (click)="onDeleteFriend()" title="Delete friend"><svg-icon iconName="delete" /></button>
+               <button><a routerLink="/friend/edit/{{friend._id}}" title="Edit Friend"><svg-icon
+                              iconName="edit" /></a></button>
+          </div>
+     </div>
+     <div class="friend-info">
+          <img src="{{ friend.imgUrl }}" alt="Friend's profile picture" />
+          <h3>{{ friend.name }}</h3>
+          <p>Email: {{ friend.email }}</p>
+          <p>Phone: {{ friend.phone }}</p>
+     </div>
+     <div class="transfers">
+          <transfer-form [friend]="friend" />
+          <ng-container *ngIf="this.getFriendTransfers(friend._id) && this.getFriendTransfers(friend._id).length > 0">
+               <h2>Last {{this.getFriendTransfers(friend._id).length}} transfers</h2>
+               <transfer-list [transfers]="this.getFriendTransfers(friend._id)" />
+          </ng-container>
+     </div>
+</div>
