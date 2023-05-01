@@ -8,8 +8,16 @@
 }
 
 .welcome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
   margin-bottom: 32px;
+  p {
+    margin: 0;
+    display: flex;
+  }
 }
 
 .hero-section {

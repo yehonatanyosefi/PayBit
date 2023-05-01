@@ -45,10 +45,14 @@ export class UserService {
   }
 
   transferFunds(amount: number, to: string, toId: string) {
-    // if (this.getLoggedInUser() && this.getLoggedInUser()?.dollars < amount) return
+    const user = this.getLoggedInUser()
+    if ((user && user.dollars < amount) || !user) return
+    user.dollars = user.dollars - amount
+    localStorage.setItem('loggedInUser', JSON.stringify(user))
     this.addMove({ to, amount, at: new Date(), toId })
   }
   loadFriendTransfers(friendId: string): void {
+    //TODO finish this
     const currentUser = this.getLoggedInUser()
     if (!currentUser) return this._friendTransfers$.next([])
     this._friendTransfers$.next(
