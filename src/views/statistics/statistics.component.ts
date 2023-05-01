@@ -1,8 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Chart, registerables } from 'chart.js';
-import { StatisticsService } from '../../services/statistics.service';
+import { Component, OnInit, AfterViewInit } from '@angular/core'
+import { Chart, registerables } from 'chart.js'
+import { StatisticsService } from '../../services/statistics.service'
 
-Chart.register(...registerables);
+Chart.register(...registerables)
 
 @Component({
   selector: 'app-statistics',
@@ -10,16 +10,16 @@ Chart.register(...registerables);
   styleUrls: ['./statistics.component.scss'],
 })
 export class StatisticsComponent implements OnInit, AfterViewInit {
-  chart: any;
-  exchangeRate: number = 3.62;
+  chart: any
+  exchangeRate: number = 3.62
 
   constructor(private chartService: StatisticsService) {}
 
   ngOnInit(): void {
-    this.chartService.updateChartData();
+    this.chartService.updateChartData()
     this.chartService.getExchangeRateValue().subscribe((rate) => {
-      this.exchangeRate = rate;
-    });
+      this.exchangeRate = rate
+    })
   }
   ngAfterViewInit() {
     this.chart = new Chart('myChart', {
@@ -55,12 +55,12 @@ export class StatisticsComponent implements OnInit, AfterViewInit {
           },
         },
       },
-    });
+    })
 
     this.chartService.getChartData().subscribe((data) => {
-      this.chart.data.labels = data.map((item) => item.name);
-      this.chart.data.datasets[0].data = data.map((item) => item.value);
-      this.chart.update();
-    });
+      this.chart.data.labels = data.map((item) => item.name)
+      this.chart.data.datasets[0].data = data.map((item) => item.value)
+      this.chart.update()
+    })
   }
 }

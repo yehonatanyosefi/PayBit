@@ -35,10 +35,10 @@
 //     this.router.navigate(['/home']);
 //   }
 // }
-import { Component } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core'
+import { UserService } from '../../services/user.service'
+import { User } from '../../models/user.model'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'auth',
@@ -46,20 +46,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent {
-  usernam: string = 'yhe';
+  usernam: string = 'yhe'
 
   constructor(private userService: UserService, private router: Router) {}
 
   signUp() {
-    if (!this.usernam) return;
+    if (!this.usernam) return
     const newUser: User = {
       _id: 'u101',
       name: this.usernam,
       isAdmin: false,
       dollars: 100,
       moves: [],
-    };
-    this.userService.setNewUser(newUser);
-    this.router.navigate(['/']);
+    }
+    this.userService.setNewUser(newUser)
+    this.router.navigate(['/'])
   }
 }

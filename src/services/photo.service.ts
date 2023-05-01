@@ -46,7 +46,7 @@ const womanPhotos = [
   `https://images.pexels.com/photos/10850706/pexels-photo-10850706.jpeg?auto=compress&cs=tinysrgb&w=${PHOTO_SIZE}`,
 ]
 
-export function getPhoto(idx:number, sex:string):string {
+export function getPhoto(idx: number, sex: string): string {
   if (sex === 'male') return manPhotos[idx]
   return womanPhotos[idx]
 }

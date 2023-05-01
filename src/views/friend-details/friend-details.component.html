@@ -15,9 +15,9 @@
      </div>
      <div class="transfers">
           <transfer-form [friend]="friend" />
-          <ng-container *ngIf="this.getFriendTransfers(friend._id) && this.getFriendTransfers(friend._id).length > 0">
-               <h2>Last {{this.getFriendTransfers(friend._id).length}} transfers</h2>
-               <transfer-list [transfers]="this.getFriendTransfers(friend._id)" />
+          <ng-container *ngIf="getFriendTransfers(friend._id) && getFriendTransfers(friend._id).length > 0">
+               <h2>Last {{getFriendTransfers(friend._id).length}} transfers</h2>
+               <transfer-list [transfers]="getFriendTransfers(friend._id)" />
           </ng-container>
      </div>
 </div>

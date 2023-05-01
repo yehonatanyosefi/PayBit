@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { SvgService } from 'src/services/svg.service';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, Input, OnInit } from '@angular/core'
+import { SvgService } from 'src/services/svg.service'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 
 @Component({
   selector: 'svg-icon',
@@ -8,10 +8,10 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   styleUrls: ['./svg-icon.component.scss'],
 })
 export class SvgIconComponent implements OnInit {
-  @Input() iconName: string = '';
-  @Input() height: string = '20';
-  @Input() width: string = '20';
-  svgContent: SafeHtml | null = null;
+  @Input() iconName: string = ''
+  @Input() height: string = '20'
+  @Input() width: string = '20'
+  svgContent: SafeHtml | null = null
 
   constructor(
     private svgService: SvgService,
@@ -19,13 +19,13 @@ export class SvgIconComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const svgString = this.svgService.getSvg(this.iconName);
+    const svgString = this.svgService.getSvg(this.iconName)
     const sizedSvgString = this.applyDimensions(
       svgString,
       this.height,
       this.width
-    );
-    this.svgContent = this.sanitizer.bypassSecurityTrustHtml(sizedSvgString);
+    )
+    this.svgContent = this.sanitizer.bypassSecurityTrustHtml(sizedSvgString)
   }
 
   private applyDimensions(
@@ -33,18 +33,18 @@ export class SvgIconComponent implements OnInit {
     height: string,
     width: string
   ): string {
-    const parser = new DOMParser();
-    const svgDocument = parser.parseFromString(svgString, 'image/svg+xml');
-    const svgElement = svgDocument.querySelector('svg');
+    const parser = new DOMParser()
+    const svgDocument = parser.parseFromString(svgString, 'image/svg+xml')
+    const svgElement = svgDocument.querySelector('svg')
 
     if (svgElement) {
-      svgElement.setAttribute('height', height);
-      svgElement.setAttribute('width', width);
+      svgElement.setAttribute('height', height)
+      svgElement.setAttribute('width', width)
 
-      return svgElement.outerHTML;
+      return svgElement.outerHTML
     }
 
-    return svgString;
+    return svgString
   }
 }
 

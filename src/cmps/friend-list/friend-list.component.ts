@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Friend } from 'src/models/friend.model';
+import { Component, Input } from '@angular/core'
+import { Friend } from 'src/models/friend.model'
 
 @Component({
   selector: 'friend-list',
@@ -7,8 +7,8 @@ import { Friend } from 'src/models/friend.model';
   styleUrls: ['./friend-list.component.scss'],
 })
 export class FriendListComponent {
-  @Input() friends!: Friend[] | null;
+  @Input() friends!: Friend[] | null
   trackByFriendId(index: number, friend: Friend): string | undefined {
-    return friend._id;
+    return friend._id
   }
 }

@@ -1,13 +1,13 @@
 export interface User {
-  _id: string;
-  name: string;
-  isAdmin: boolean;
-  dollars: number;
-  moves: Move[];
+  _id: string
+  name: string
+  isAdmin: boolean
+  dollars: number
+  moves: Move[]
 }
 export interface Move {
-  to: string;
-  at: Date;
-  amount: number;
-  toId: string;
+  to: string
+  at: Date
+  amount: number
+  toId: string
 }
