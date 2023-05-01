@@ -25,6 +25,8 @@ export class UserService {
 
   private _loggedInUser$ = new BehaviorSubject<User | null>(this.user)
   public loggedInUser$ = this._loggedInUser$.asObservable()
+  private _friendTransfers$ = new BehaviorSubject<Move[] | []>([])
+  public friendTransfers$ = this._friendTransfers$.asObservable()
 
   getLoggedInUser() {
     return this._loggedInUser$.value
@@ -45,6 +47,13 @@ export class UserService {
   transferFunds(amount: number, to: string, toId: string) {
     // if (this.getLoggedInUser() && this.getLoggedInUser()?.dollars < amount) return
     this.addMove({ to, amount, at: new Date(), toId })
+  }
+  loadFriendTransfers(friendId: string): void {
+    const currentUser = this.getLoggedInUser()
+    if (!currentUser) return this._friendTransfers$.next([])
+    this._friendTransfers$.next(
+      currentUser?.moves?.filter((move) => move?.toId === friendId).splice(0, 3)
+    )
   }
   getFriendTransfers(friendId: string): Move[] {
     const currentUser = this.getLoggedInUser()
