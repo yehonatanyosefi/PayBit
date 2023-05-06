@@ -1,78 +1,68 @@
-import { Injectable } from '@angular/core';
-import {
-  Observable,
-  BehaviorSubject,
-  throwError,
-  from,
-  tap,
-  retry,
-  catchError,
-} from 'rxjs';
-import { storageService } from './async-storage.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Friend, FriendFilter } from '../models/friend.model';
-import { getPhoto } from './photo.service';
-const ENTITY = 'friends';
+import { Injectable } from '@angular/core'
+import { BehaviorSubject, throwError, from, tap, retry, catchError } from 'rxjs'
+import { storageService } from './async-storage.service'
+import { HttpErrorResponse } from '@angular/common/http'
+import { Friend, FriendFilter } from '../models/friend.model'
+import { getPhoto } from './photo.service'
+const FRIEND_KEY = 'friendsDB'
 
 @Injectable({
   providedIn: 'root',
 })
 export class FriendService {
-  private _malePhotoNum = 10;
-  private _femalePhotoNum = 9;
+  private _malePhotoNum = 10
+  private _femalePhotoNum = 9
 
-  private _friends$ = new BehaviorSubject<Friend[]>([]);
-  public friends$ = this._friends$.asObservable();
+  private _friends$ = new BehaviorSubject<Friend[]>([])
+  public friends$ = this._friends$.asObservable()
 
-  private _friendFilter$ = new BehaviorSubject<FriendFilter>({ term: '' });
-  public friendFilter$ = this._friendFilter$.asObservable();
+  private _friendFilter$ = new BehaviorSubject<FriendFilter>({ term: '' })
+  public friendFilter$ = this._friendFilter$.asObservable()
 
   constructor() {
-    const friends = JSON.parse(localStorage.getItem(ENTITY) || 'null');
+    const friends = JSON.parse(localStorage.getItem(FRIEND_KEY) || 'null')
     if (!friends || friends.length === 0) {
-      localStorage.setItem(ENTITY, JSON.stringify(this._createFriends()));
+      localStorage.setItem(FRIEND_KEY, JSON.stringify(this._createFriends()))
     }
   }
 
   public loadFriends() {
-    return from(storageService.query(ENTITY)).pipe(
+    return from(storageService.query(FRIEND_KEY)).pipe(
       tap((friends) => {
-        const filterBy = this._friendFilter$.value;
+        const filterBy = this._friendFilter$.value
         if (filterBy && filterBy.term) {
-          friends = this._filter(friends, filterBy.term);
+          friends = this._filter(friends, filterBy.term)
         }
-        this._friends$.next(this._sort(friends));
+        this._friends$.next(this._sort(friends))
       }),
       retry(1),
       catchError(this._handleError)
-    );
+    )
   }
 
   public setFilter(friendFilter: FriendFilter) {
-    this._friendFilter$.next({ ...friendFilter });
-    this.loadFriends().subscribe();
+    this._friendFilter$.next({ ...friendFilter })
+    this.loadFriends().subscribe()
   }
 
-  public getFriendById(id: string): Observable<Friend> {
-    return from(storageService.get(ENTITY, id)).pipe(
-      catchError(this._handleError)
-    );
+  public getFriendById(id: string): Promise<Friend> {
+    return storageService.get(FRIEND_KEY, id)
   }
 
   public deleteFriend(id: string) {
-    return from(storageService.remove(ENTITY, id)).pipe(
+    return from(storageService.remove(FRIEND_KEY, id)).pipe(
       tap(() => {
-        let friends = this._friends$.value;
-        friends = friends.filter((friend) => friend._id !== id);
-        this._friends$.next(friends);
+        let friends = this._friends$.value
+        friends = friends.filter((friend) => friend._id !== id)
+        this._friends$.next(friends)
       }),
       retry(1),
       catchError(this._handleError)
-    );
+    )
   }
 
   public saveFriend(friend: Friend) {
-    return friend._id ? this._updateFriend(friend) : this._addFriend(friend);
+    return friend._id ? this._updateFriend(friend) : this._addFriend(friend)
   }
 
   public getEmptyFriend() {
@@ -94,22 +84,22 @@ export class FriendService {
                 : this._femalePhotoNum++,
               'female'
             ),
-    };
+    }
   }
 
   private _updateFriend(friend: Friend) {
-    return from(storageService.post(ENTITY, friend)).pipe(
+    return from(storageService.put(FRIEND_KEY, friend)).pipe(
       tap((updatedFriend) => {
-        const friends = this._friends$.value;
+        const friends = this._friends$.value
         this._friends$.next(
           friends.map((friend) =>
             friend._id === updatedFriend._id ? updatedFriend : friend
           )
-        );
+        )
       }),
       retry(1),
       catchError(this._handleError)
-    );
+    )
   }
 
   private _addFriend(friend: Friend) {
@@ -119,34 +109,34 @@ export class FriendService {
       friend.phone,
       friend.imgUrl,
       (friend._id = this._getRandomId())
-    );
-    return from(storageService.post(ENTITY, newFriend)).pipe(
+    )
+    return from(storageService.post(FRIEND_KEY, newFriend)).pipe(
       tap((newFriend) => {
-        const friends = this._friends$.value;
-        this._friends$.next([...friends, newFriend]);
+        const friends = this._friends$.value
+        this._friends$.next([...friends, newFriend])
       }),
       retry(1),
       catchError(this._handleError)
-    );
+    )
   }
 
   private _sort(friends: Friend[]): Friend[] {
     return friends.sort((a, b) => {
-      if (a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) return -1;
-      if (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) return 1;
-      return 0;
-    });
+      if (a.name.toLocaleLowerCase() < b.name.toLocaleLowerCase()) return -1
+      if (a.name.toLocaleLowerCase() > b.name.toLocaleLowerCase()) return 1
+      return 0
+    })
   }
 
   private _filter(friends: Friend[], term: string) {
-    term = term.toLocaleLowerCase();
+    term = term.toLocaleLowerCase()
     return friends.filter((friend) => {
       return (
         friend.name.toLocaleLowerCase().includes(term) ||
         friend.phone.toLocaleLowerCase().includes(term) ||
         friend.email.toLocaleLowerCase().includes(term)
-      );
-    });
+      )
+    })
   }
 
   private _createFriends() {
@@ -303,24 +293,22 @@ export class FriendService {
         moves: [],
         imgUrl: getPhoto(8, 'female'),
       },
-    ];
-    return friends;
+    ]
+    return friends
   }
 
   private _handleError(err: HttpErrorResponse) {
-    console.log('error in pet service:', err);
-    return throwError(() => err);
+    console.log('error in friend service:', err)
+    return throwError(() => err)
   }
 
   private _getRandomId(length = 8): string {
-    let result = '';
+    let result = ''
     const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     for (var i = 0; i < length; i++) {
-      result += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
+      result += characters.charAt(Math.floor(Math.random() * characters.length))
     }
-    return result;
+    return result
   }
 }

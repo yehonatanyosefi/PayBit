@@ -15,10 +15,12 @@
      </div>
      <div class="transfers">
           <transfer-form [friend]="friend" />
-          <ng-container *ngIf="getFriendTransfers(friend._id) && getFriendTransfers(friend._id).length > 0">
-               <h2>Last {{getFriendTransfers(friend._id).length > 1 ? getFriendTransfers(friend._id).length : ''}}
-                    transfer{{getFriendTransfers(friend._id).length > 1 ? 's' : ''}}</h2>
-               <transfer-list [transfers]="getFriendTransfers(friend._id)" />
+          <ng-container *ngIf="(friendTransfers$ | async) as friendTransfers">
+               <ng-container *ngIf="friendTransfers && friendTransfers.length > 0">
+                    <h2>Last {{friendTransfers.length > 1 ? friendTransfers.length : ''}}
+                         transfer{{friendTransfers.length > 1 ? 's' : ''}}</h2>
+                    <transfer-list [transfers]="friendTransfers" />
+               </ng-container>
           </ng-container>
      </div>
 </div>

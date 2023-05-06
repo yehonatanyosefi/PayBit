@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { FriendService } from '../../services/friend.service'
 import { Friend } from '../../models/friend.model'
-import { Observable, map, takeUntil, Subject, lastValueFrom } from 'rxjs'
+import { Observable, map, takeUntil, Subject, switchMap } from 'rxjs'
 import { UserService } from 'src/services/user.service'
 import { Move } from 'src/models/user.model'
 
@@ -21,19 +21,22 @@ export class FriendDetailsComponent implements OnInit, OnDestroy {
 
   friend: Friend | null = null
   friend$!: Observable<Friend>
-  friendTransfers: Move[] | null = null
   destroySubject$ = new Subject<null>()
 
+  friendTransfers$!: Observable<Move[]>
+
   ngOnInit(): void {
-    this.friend$ = this.route.data.pipe(map((data) => data['friend']))
+    this.friend$ = this.route.data.pipe(
+      map((data) => data['friend']),
+      switchMap(async (friend) => {
+        this.userService.setFriendTransfers(friend._id)
+        this.friendTransfers$ = this.userService.friendTransfers$
+        return friend
+      })
+    )
     this.friend$.pipe(takeUntil(this.destroySubject$)).subscribe((friend) => {
       this.friend = friend
-      // this.friendTransfers = await lastValueFrom()
     })
-  }
-
-  getFriendTransfers(friendId: string): Move[] {
-    return this.userService.getFriendTransfers(friendId)
   }
 
   onBack(): void {

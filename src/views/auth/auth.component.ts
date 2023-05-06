@@ -46,7 +46,7 @@ import { Router } from '@angular/router'
   styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent {
-  usernam: string = 'yhe'
+  usernam: string = ''
 
   constructor(private userService: UserService, private router: Router) {}
 

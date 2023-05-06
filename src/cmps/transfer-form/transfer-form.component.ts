@@ -28,6 +28,8 @@ export class TransferFormComponent implements OnInit {
         this.friend.name,
         this.friend._id
       )
+      this.userService.setFriendTransfers(this.friend._id)
+      this.transferAmount = null
       this.amountError = null
     }
   }

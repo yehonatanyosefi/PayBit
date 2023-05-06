@@ -24,6 +24,7 @@ import { HomeComponent } from '../views/home/home.component'
 import { AboutComponent } from '../views/about/about.component'
 import { StatisticsComponent } from '../views/statistics/statistics.component'
 import { AuthComponent } from 'src/views/auth/auth.component'
+import { FooterCmpComponent } from '../cmps/footer-cmp/footer-cmp.component'
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { AuthComponent } from 'src/views/auth/auth.component'
     TransferPreviewComponent,
     TransferFormComponent,
     AuthComponent,
+    FooterCmpComponent,
   ],
   imports: [
     BrowserModule,

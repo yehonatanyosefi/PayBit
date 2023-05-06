@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 import { User, Move } from 'src/models/user.model'
+
+const LOGGED_IN_USER_KEY = 'loggedInUser'
+const FRIEND_MAX_SHOWN_TRANSFERS = 3
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +17,7 @@ export class UserService {
   }
 
   constructor() {
-    const storedUser = localStorage.getItem('loggedInUser')
+    const storedUser = localStorage.getItem(LOGGED_IN_USER_KEY)
     if (storedUser) {
       this.user = JSON.parse(storedUser)
     } else {
@@ -34,36 +37,33 @@ export class UserService {
 
   setNewUser(newUser: User) {
     this._loggedInUser$.next(newUser)
-    localStorage.setItem('loggedInUser', JSON.stringify(newUser))
+    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(newUser))
+  }
+
+  transferFunds(amount: number, to: string, toId: string) {
+    const currentUser = this.getLoggedInUser()
+    if ((currentUser && currentUser.dollars < amount) || !currentUser) return
+    currentUser.dollars = currentUser.dollars - amount
+    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(currentUser))
+    this._loggedInUser$.next(currentUser)
+    this.addMove({ to, amount, at: new Date(), toId })
   }
 
   addMove(move: Move) {
     const currentUser = this.getLoggedInUser()
-    if (currentUser) currentUser.moves = [...(currentUser?.moves || []), move]
+    if (!currentUser) return
+    currentUser.moves = [move, ...(currentUser?.moves || [])]
     this._loggedInUser$.next(currentUser)
-    localStorage.setItem('loggedInUser', JSON.stringify(currentUser))
+    localStorage.setItem(LOGGED_IN_USER_KEY, JSON.stringify(currentUser))
   }
 
-  transferFunds(amount: number, to: string, toId: string) {
-    const user = this.getLoggedInUser()
-    if ((user && user.dollars < amount) || !user) return
-    user.dollars = user.dollars - amount
-    localStorage.setItem('loggedInUser', JSON.stringify(user))
-    this.addMove({ to, amount, at: new Date(), toId })
-  }
-  loadFriendTransfers(friendId: string): void {
-    //TODO finish this
-    const currentUser = this.getLoggedInUser()
-    if (!currentUser) return this._friendTransfers$.next([])
-    this._friendTransfers$.next(
-      currentUser?.moves?.filter((move) => move?.toId === friendId).splice(0, 3)
-    )
-  }
-  getFriendTransfers(friendId: string): Move[] {
-    const currentUser = this.getLoggedInUser()
-    if (!currentUser) return []
-    return currentUser?.moves
-      ?.filter((move) => move?.toId === friendId)
-      .splice(0, 3)
+  public setFriendTransfers(friendId: string): void {
+    const loggedInUser = this.getLoggedInUser()
+    if (!loggedInUser) return
+
+    const friendTransfers = loggedInUser.moves
+      .filter((move) => move.toId === friendId)
+      .slice(0, FRIEND_MAX_SHOWN_TRANSFERS)
+    this._friendTransfers$.next(friendTransfers)
   }
 }
