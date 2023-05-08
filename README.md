@@ -1,5 +1,5 @@
 <h1 align="center">PayBit</h1>
-<h3 align="center">A demo app/website for managing transactions with inspirations from Paybox and Bit</h3>
+<h3 align="center">A demo app/website for managing transactions with inspirations from Paybox and Bit, built with Angular and RxJS</h3>
 
 <a href="https://yehonatanyosefi.github.io/PayBit/#/home">View it Live!</a>
 
